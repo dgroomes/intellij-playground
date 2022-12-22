@@ -40,9 +40,9 @@ We need to create a Docker image and container that hosts the IDE backend and is
 we need to work on our projects. For me, I often work on Java projects and so I depend on an installation of OpenJDK.
 Personally, I find Microsoft's [Development Containers](https://containers.dev/) project effective and it shows promise for future
 investment and improvement. We can define a dev container configuration file (`.devcontainer/devcontainer.json`) and use
-the [Dev Container CLI](https://github.com/devcontainers/cli) to define and build our ideal development environment! I
-have explored the Development Containers project in the context of VS Code and GitHub Codespaces. You can see my notes and working
-examples in my repository <https://github.com/dgroomes/vscode-playground>.
+the [Dev Container CLI](https://github.com/devcontainers/cli) to define and build our ideal development environment! Previously,
+I have already explored the Development Containers project in the context of VS Code and GitHub Codespaces. You can see
+my notes and working examples in my repository <https://github.com/dgroomes/vscode-playground>.
 
 ### Instructions
 
@@ -62,7 +62,12 @@ Follow these instructions to create a container-based development environment fo
      ```
    * This did a lot of heavy lifting for us. It created a Docker image that is installed with OpenJDK and an SSH server.
      All we had to do was declare that we wanted those features in our `.devcontainer/devcontainer.json` configuration
-     file.
+     file. Alternatively, you are always free to create your own `Dockerfile` and related installation scripts but these
+     are notoriously difficult to maintain and debug. Dev Containers has implemented many of these gnarly installation
+     scripts, like [this one for Java](https://github.com/devcontainers/features/blob/2af02c198adabacff30c400b0bfcad972ce5abcc/src/java/install.sh)
+     and [this one for Python](https://github.com/devcontainers/features/blob/2af02c198adabacff30c400b0bfcad972ce5abcc/src/python/install.sh).
+     In my view, the biggest value proposition of the Dev Containers project is the effort and commitment they have exerted
+     into maintaining these installation scripts.
 5. Create and start a container from the image
    * ```shell
      docker run --rm --name intellij-playground-devcontainer --publish 2222:2222 --detach intellij-playground-devcontainer /usr/local/share/ssh-init.sh sleep infinity
