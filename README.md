@@ -68,8 +68,8 @@ Follow these instructions to create a container-based development environment fo
    * The peculiarities of this command are something you need to understand and research by reading the Dev Container docs
      and *feature* installation scripts like [the SSH server `install.sh` script](https://github.com/devcontainers/features/blob/b9bfe406d211ce5645a165a73b72048e9ea9e88e/src/sshd/install.sh).
      As time goes on, the Dev Container CLI, the Dev Container spec, and surrounding tooling like VS Code and perhaps Intellij
-     (although JetBrains has not committed to Dev Containers as of yet) will improve so that we don't need to understand
-     these implementation details.
+     (although [JetBrains has not committed to Dev Containers as of yet](https://youtrack.jetbrains.com/issue/IDEA-202267/Support-development-in-Docker-as-in-VM))
+     will improve so that we don't need to understand these implementation details.
    * Note: At this point, we've ejected from the Dev Container CLI. For the rest of the worfklow we use the Docker image
      and the `docker` CLI directly. I'm not particularly interested in reading the source code for the Dev Container CLI,
      but at some point I might get there.  
@@ -126,8 +126,10 @@ General clean-ups, changes and things I wish to implement for this project:
   I have many projects. I don't want to continually download Intellij (it's 1+ GB).
 
 
-## Reference Materials
+## Reference
 
 * [JetBrains Gateway](https://www.jetbrains.com/help/idea/remote-development-a.html#gateway)
 * [Development Containers](https://containers.dev/)
 * [Dev Container CLI](https://github.com/devcontainers/cli)
+* [JetBrains feature request "IDEA-202267": *Support development in Docker as in VM*](https://youtrack.jetbrains.com/issue/IDEA-202267/Support-development-in-Docker-as-in-VM)
+  * Follow this issue to understand and stay updated on JetBrains' plans for container-based development.
