@@ -31,8 +31,8 @@ or you can [orchestrate your own development environment with SSH](https://www.j
 
 I'm a fan of cloud development environments for demos, learning expeditions, and open source collaboration but I generally
 want more control and power than what the cloud constrains me to (and what the cloud costs). With that in mind, we can create a container-based
-development environment that runs an Intellij *IDE backend* and connect to it from an *IDE client* like Intellij or [Gateway](https://www.jetbrains.com/help/idea/remote-development-a.html#gateway)
-via SSH. This is what I'll be exploring in this repository.
+development environment that runs an Intellij *IDE backend* and connect to it from the *JetBrains Client* via SSH. This
+is what I've proved out in this repository.
 
 To make sense of the components and how they work together, refer to [this architecture diagram in the Intellij docs](https://www.jetbrains.com/help/idea/remote-development-overview.html#defs).
 
@@ -43,6 +43,8 @@ investment and improvement. We can define a dev container configuration file (`.
 the [Dev Container CLI](https://github.com/devcontainers/cli) to define and build our ideal development environment! I
 have explored the Development Containers project in the context of VS Code and GitHub Codespaces. You can see my notes and working
 examples in my repository <https://github.com/dgroomes/vscode-playground>.
+
+### Instructions
 
 Follow these instructions to create a container-based development environment for Intellij:
 
