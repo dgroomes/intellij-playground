@@ -25,8 +25,6 @@ This was developed on macOS and for my own personal use.
 
 ## Container-Based Development via SSH
 
-NOT YET FULLY IMPLEMENTED
-
 Intellij and other JetBrains IDEs support [remote development](https://www.jetbrains.com/remote-development/) via cloud
 development environments like [JetBrains Space](https://www.jetbrains.com/space/features/dev-environments.html), [GitHub Codespaces](https://github.com/features/codespaces),
 or you can [orchestrate your own development environment with SSH](https://www.jetbrains.com/help/idea/remote-development-starting-page.html#start_from_IDE).
@@ -80,12 +78,26 @@ Follow these instructions to create a container-based development environment fo
      ssh -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GlobalKnownHostsFile=/dev/null vscode@localhost
      ```
    * Use the same user password you created earlier.
-8. TODO Connect with Gateway and install the IDE backend.
-9. When you're done, stop the container
-   * ```shell
-     docker stop intellij-playground-devcontainer
-     ```
-   * Because we started the container with the `--rm` flag, the container will be deleted when it stops.
+8. Engage Intellj's *Remote Development* and install the IDE backend.
+   * In Intellij, start the Remote Development wizard at `File > Remote Development...`
+   * Create a new SSH connection to `vscode@localhost` at port `2222` and using the password you created earlier.
+   * Install Intellij on the dev container.
+
+   <img alt="intellij-remote-development-wizard-screenshot.png" src="intellij-remote-development-wizard-screenshot.png" width="800" />
+
+   * Hopefully you didn't run into any unfixable errors. Beware that JetBrains remote development is a beta feature!
+9. Develop and Explore
+   * Enjoy your development experience in the dev container.
+   * For example, here is a "hello world" Java program that I wrote. The dev container served the Intellij IDE backend, 
+     compiled the Java source code, and executed the program.
+
+   <img alt="intellij-remote-development-hello-world.png" src="intellij-remote-development-hello-world.png" width="800"/>
+
+10. When you're done, stop the container
+    * ```shell
+      docker stop intellij-playground-devcontainer
+      ```
+    * Because we started the container with the `--rm` flag, the container will be deleted when it stops.
 
 
 ## Wish List
@@ -96,8 +108,13 @@ General clean-ups, changes and things I wish to implement for this project:
 * [ ] Merge my project <https://github.com/dgroomes/intellij-plugin-playground> as a sub-project to this Git repo.
 * [x] DONE Remove Projector stuff. That project was discontinued and is now part of the closed-source product Gateway (which is
   totally fine; JetBrains can do what they need to do to stay competitive) 
-* [ ] IN PROGRESS Create a container-based development environment. Use JetBrains Gateway. Use Dev Containers. Describe
+* [x] DONE Create a container-based development environment. Use JetBrains Gateway. Use Dev Containers. Describe
   all instructions.
+* [ ] Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
+  experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
+  is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
+* [ ] Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
+  I have many projects. I don't want to continually download Intellij (it's 1+ GB).
 
 
 ## Reference Materials
