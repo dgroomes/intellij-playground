@@ -29,10 +29,15 @@ Intellij and other JetBrains IDEs support [remote development](https://www.jetbr
 development environments like [JetBrains Space](https://www.jetbrains.com/space/features/dev-environments.html), [GitHub Codespaces](https://github.com/features/codespaces),
 or you can [orchestrate your own development environment with SSH](https://www.jetbrains.com/help/idea/remote-development-starting-page.html#start_from_IDE).
 
-I'm a fan of cloud development environments for demos, learning expeditions, and open source collaboration but I generally
-want more control and power than what the cloud constrains me to (and what the cloud costs). With that in mind, we can create a container-based
-development environment that runs an Intellij *IDE backend* and connect to it from the *JetBrains Client* via SSH. This
-is what I've proved out in this repository.
+Here is a quote from the [JetBrains documentation about remote development](https://www.jetbrains.com/help/idea/remote-development-overview.html):
+
+> Remote development lets you use the IDE interface on a thin client while having a powerful remote host to check out
+> and load your project, index, analyze, build, run, debug, and test your code.
+
+I'm a fan of cloud development environments for demos, learning expeditions, and open source collaboration like sharing
+reproducible defects but I generally want more control, power, responsiveness, and affordability than what the cloud
+offers. With that in mind, we can create a **local container-based development environment** that runs an Intellij
+*IDE backend* and connect to it from the *JetBrains Client* via SSH. This is what I've proved out in this repository.
 
 To make sense of the components and how they work together, refer to [this architecture diagram in the Intellij docs](https://www.jetbrains.com/help/idea/remote-development-overview.html#defs).
 
@@ -133,7 +138,8 @@ General clean-ups, changes and things I wish to implement for this project:
   experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
   is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
 * [ ] Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
-  I have many projects. I don't want to continually download Intellij (it's 1+ GB).
+  I have many projects. I don't want to continually download Intellij (it's 1+ GB). I think I need to use the "JetBrains Client Downloader" (?)
+  mentioned on the [*Fully offline mode* page](https://www.jetbrains.com/help/idea/fully-offline-mode.html)
 
 
 ## Reference
