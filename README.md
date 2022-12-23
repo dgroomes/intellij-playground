@@ -126,6 +126,9 @@ General clean-ups, changes and things I wish to implement for this project:
   totally fine; JetBrains can do what they need to do to stay competitive) 
 * [x] DONE Create a container-based development environment. Use JetBrains Gateway. Use Dev Containers. Describe
   all instructions.
+* [ ] BLOCKED (The Dev Container CLI has not yet implemented the `forwardPorts` part of the spec. See [GitHub issue #186](https://github.com/devcontainers/cli/issues/186))
+  Consider using the Dev Container CLI to run the container. This is convenient because it should do the bind
+  mounting and the port forwarding (you still have to configure the ports manually in `.devcontainer/devcontainer.json`).
 * [ ] Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
   experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
   is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
