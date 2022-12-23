@@ -70,7 +70,7 @@ Follow these instructions to create a container-based development environment fo
      into maintaining these installation scripts.
 5. Create and start a container from the image
    * ```shell
-     docker run --rm --name intellij-playground-devcontainer --publish 2222:2222 --detach intellij-playground-devcontainer /usr/local/share/ssh-init.sh sleep infinity
+     docker run --rm --name intellij-playground-devcontainer --publish 2222:2222 --detach --mount type=bind,source="$PWD",target=/workspace/intellij-playground intellij-playground-devcontainer /usr/local/share/ssh-init.sh sleep infinity
      ```
    * The peculiarities of this command are something you need to understand and research by reading the Dev Container docs
      and *feature* installation scripts like [the SSH server `install.sh` script](https://github.com/devcontainers/features/blob/b9bfe406d211ce5645a165a73b72048e9ea9e88e/src/sshd/install.sh).
@@ -129,7 +129,7 @@ General clean-ups, changes and things I wish to implement for this project:
 * [ ] BLOCKED (The Dev Container CLI has not yet implemented the `forwardPorts` part of the spec. See [GitHub issue #186](https://github.com/devcontainers/cli/issues/186))
   Consider using the Dev Container CLI to run the container. This is convenient because it should do the bind
   mounting and the port forwarding (you still have to configure the ports manually in `.devcontainer/devcontainer.json`).
-* [ ] Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
+* [x] DONE Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
   experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
   is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
 * [ ] Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
