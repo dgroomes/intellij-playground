@@ -51,17 +51,32 @@ my notes and working examples in my repository <https://github.com/dgroomes/vsco
 
 ### Instructions
 
-Follow these instructions to create a container-based development environment for Intellij:
+Follow these instructions to create a container-based development environment for Intellij. This follows a variation of
+the [*Server-to-client* workflow described by the Intellij remote development docs](https://www.jetbrains.com/help/idea/remote-development-overview.html).
+The *Client-to-server* workflow is a little easier to follow and [those instructions are in an earlier version of this README](https://github.com/dgroomes/intellij-playground/tree/7a5d9b095d1b4287d3c9f349611941aab8a7bc62).
 
-1. Pre-requisite: npm
+1. Pre-requisite: [JetBrains Gateway](https://www.jetbrains.com/help/idea/remote-development-a.html#gateway)
+2. Pre-requisite: npm
    * I'm using npm version 9.2.0.
-2. Pre-requisite: Docker
+3. Pre-requisite: Docker
    * I'm using Docker Desktop 4.15.0
-3. Install the *Dev Container CLI*
+4. Download the Intellij IDE Backend
+    * First, you need to download a distribution of Intellij from JetBrains. There are a few paths you can take to do that.
+      I won't detail the specific steps I chose because there isn't a perfect way to do this. The easiest interactive way
+      to download a distribution is via the [*Other Versions* download page](https://www.jetbrains.com/idea/download/other.html)
+      where you can browse the options and choose a specific distribution, like Intellij IDEA Ultimate for Linux AARCH64.
+      Alternatively, to do a headless installation, you can try using the `jetbrains-clients-downloader` CLI tool which
+      can be used to download any and all JetBrains products. It is not documented well, and it's documented only briefly
+      in the JetBrains' *Code With Me* product docs in a doc page named [*Offline (local storage) mode*](https://www.jetbrains.com/help/cwm/guest-local-storage-setup.html).
+      So, this installation path doesn't seem very official and will likely change in the near future. Use your discretion
+      to choose the method that's best for you.
+    * Put the unzipped distribution in a local subdirectory `.devcontainer/idea-distribution/`. This directory is ignored.
+      The distribution will be copied into the dev container Docker image. 
+5. Install the *Dev Container CLI*
    * ```shell
      npm install --location=global @devcontainers/cli
      ```
-4. Build the image
+6. Build the image
    * ```shell
      devcontainer build --workspace-folder . --image-name intellij-playground-devcontainer
      ```
@@ -73,7 +88,7 @@ Follow these instructions to create a container-based development environment fo
      and [this one for Python](https://github.com/devcontainers/features/blob/2af02c198adabacff30c400b0bfcad972ce5abcc/src/python/install.sh).
      In my view, the biggest value proposition of the Dev Containers project is the effort and commitment they have exerted
      into maintaining these installation scripts.
-5. Create and start a container from the image
+7. Create and start a container from the image
    * ```shell
      docker run --rm --name intellij-playground-devcontainer --publish 2222:2222 --detach --mount type=bind,source="$PWD",target=/workspace/intellij-playground intellij-playground-devcontainer /usr/local/share/ssh-init.sh sleep infinity
      ```
@@ -85,7 +100,7 @@ Follow these instructions to create a container-based development environment fo
    * Note: At this point, we've ejected from the Dev Container CLI. For the rest of the worfklow we use the Docker image
      and the `docker` CLI directly. I'm not particularly interested in reading the source code for the Dev Container CLI,
      but at some point I might get there.  
-6. Set a password for the non-root dev container Linux user
+8. Set a password for the non-root dev container Linux user
    * ```shell
      docker exec --interactive --tty intellij-playground-devcontainer passwd vscode
      ```
@@ -94,27 +109,49 @@ Follow these instructions to create a container-based development environment fo
      Read that page.
    * Note: The Dev Container CLI and Dev Container SSH feature have created a non-root user called `vscode`. That's not
      very "standards-body". The VS Code and Microsoft influence is strong here, but we'll take it.
-7. Test an SSH connection
+9. Start the IDE backend remote dev server via an SSH connection
+   * Note: This is an awkward dev flow, but it works.
+   * Start an SSH-based shell session with the container with the following command. Use the same user password you
+     created earlier.
    * ```shell
      ssh -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GlobalKnownHostsFile=/dev/null vscode@localhost
      ```
-   * Use the same user password you created earlier.
-8. Engage Intellj's *Remote Development* and install the IDE backend.
-   * In Intellij, start the Remote Development wizard at `File > Remote Development...`
-   * Create a new SSH connection to `vscode@localhost` at port `2222` and using the password you created earlier.
-   * Install Intellij on the dev container.
+   * While in the SSH shell session, start the IDE backend with the following command. Note that the command includes the
+     path to the project on the container's file system: `/workspace/intellij-playground`.
+   * ```shell
+     /opt/idea/bin/remote-dev-server.sh run /workspace/intellij-playground --ssh-link-host localhost --ssh-link-port 2222 --ssh-link-user vscode
+     ```
+   * Verify that the command executed normally and did not output any error logs. If it executed normally, the log
+     output should include a *Gateway link*. It should look something like the following.
+   * ```text
+     $ /opt/idea/bin/remote-dev-server.sh run /workspace/intellij-playground --ssh-link-host localhost --ssh-link-port 2222 --ssh-link-user vscode
+     
+     ... omitted ...
+     
+     *********************************************************
+     
+     Join link: (ignore this)
+     
+     Http link: (ignore this)
+     
+     Gateway link: jetbrains-gateway://connect#idePath=%2Fopt%2Fidea&projectPath=%2Fworkspace%2Fintellij-playground&host=localhost&port=2222&user=vscode&type=ssh&deploy=false
+     
+     ********************************************************* 
+     ```
+10. Open the project via the Gateway link
+    * Paste the Gateway link into your browser and your browser will launch your local JetBrains Gateway application with
+     special arguments that point it to the remote dev server's port and project path. That data is embedded in the URL. 
+11. Develop and Explore
+    * Enjoy your development experience in the dev container.
+    * For example, notice the terminal output in the following screenshot. It shows a regular-looking Intellij window
+      that's opened on the `intellij-playground` project. The GUI process is running on your host using the Intellij
+      Client but the main IDE engine is running in the dev container. The shell running in the embedded terminal is also
+      running in the dev container. Notice the commands and their output in the terminal.
 
-   <img alt="intellij-remote-development-wizard-screenshot.png" src="intellij-remote-development-wizard-screenshot.png" width="800" />
+    <img alt="intellij-remote-development-thin-client-screenshot.png" src="intellij-remote-development-thin-client-screenshot.png" width="800"/>
 
-   * Hopefully you didn't run into any unfixable errors. Beware that JetBrains remote development is a beta feature!
-9. Develop and Explore
-   * Enjoy your development experience in the dev container.
-   * For example, here is a "hello world" Java program that I wrote. The dev container served the Intellij IDE backend, 
-     compiled the Java source code, and executed the program.
 
-   <img alt="intellij-remote-development-hello-world.png" src="intellij-remote-development-hello-world.png" width="800"/>
-
-10. When you're done, stop the container
+12. When you're done, stop the container
     * ```shell
       docker stop intellij-playground-devcontainer
       ```
@@ -137,7 +174,7 @@ General clean-ups, changes and things I wish to implement for this project:
 * [x] DONE Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
   experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
   is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
-* [ ] Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
+* [x] DONE (Update: yes, but it trades off some steps with other steps) Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
   I have many projects. I don't want to continually download Intellij (it's 1+ GB). I think I need to use the "JetBrains Client Downloader" (?)
   mentioned on the [*Fully offline mode* page](https://www.jetbrains.com/help/idea/fully-offline-mode.html)
 

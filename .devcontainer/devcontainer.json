@@ -2,7 +2,11 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/java
 {
 	"name": "intellij-playground-dev-container",
-	"image": "mcr.microsoft.com/devcontainers/java:0-17",
+
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
 	"features": {
 
 		// The latest "java" Dev Container feature releases: https://github.com/devcontainers/features/pkgs/container/features%2Fjava
