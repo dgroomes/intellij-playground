@@ -13,7 +13,8 @@
 
 I originally created this repository to explore  [*Projector*](https://blog.jetbrains.com/blog/2021/03/11/projector-is-out/)
 but that project is now discontinued. But, I can still use this repository to explore other things about Intellij like its
-support for remote development via SSH, Intellij plugin development, and more.
+support for remote development via SSH, Intellij plugin development, and more. Also, I'm exploring GraphQL support in Intellij
+by way of the really nice [GraphQL IntelliJ Plugin](https://github.com/JetBrains/js-graphql-intellij-plugin).
 
 ---
 **NOTE**:
@@ -163,7 +164,7 @@ The *Client-to-server* workflow is a little easier to follow and [those instruct
 General clean-ups, changes and things I wish to implement for this project:
 
 * [x] ABANDONED (I don't think this will work on macOS but I tried) Run Projector without Docker. Maybe this will avoid the JVM crash.
-* [ ] Merge my project <https://github.com/dgroomes/intellij-plugin-playground> as a sub-project to this Git repo.
+* [x] SKIP (no i actually want to take all my subprojects and promote them to their own top-level repos, but i need more tooling to make that happen) Merge my project <https://github.com/dgroomes/intellij-plugin-playground> as a sub-project to this Git repo.
 * [x] DONE Remove Projector stuff. That project was discontinued and is now part of the closed-source product Gateway (which is
   totally fine; JetBrains can do what they need to do to stay competitive) 
 * [x] DONE Create a container-based development environment. Use JetBrains Gateway. Use Dev Containers. Describe
@@ -177,6 +178,9 @@ General clean-ups, changes and things I wish to implement for this project:
 * [x] DONE (Update: yes, but it trades off some steps with other steps) Can I build a ready-to-go image, above and beyond the dev containers one I created, that's pre-installed with Intellij?
   I have many projects. I don't want to continually download Intellij (it's 1+ GB). I think I need to use the "JetBrains Client Downloader" (?)
   mentioned on the [*Fully offline mode* page](https://www.jetbrains.com/help/idea/fully-offline-mode.html)
+* [x] DONE Explore GraphQL support and make some requests to the GitHub GraphQL API.
+* [ ] How does the GraphQL Intellij plugin implement "environment variables"? Is this using a blessed Intellij API or
+  was it a custom implementation? I'm curious because I want a similar feature for a plugin I'm working on.
 
 
 ## Reference

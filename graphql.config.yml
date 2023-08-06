@@ -1,0 +1,6 @@
+# This is a GraphQL Intellij Plugin configuration file that defines a "remote schema" to the GitHub GraphQL API.
+# See this related section of the plugin docs: https://github.com/JetBrains/js-graphql-intellij-plugin#remote-schemas
+schema:
+  - https://api.github.com/graphql:
+      headers:
+        Authorization: Bearer ${env:GITHUB-ACCESS-TOKEN}
