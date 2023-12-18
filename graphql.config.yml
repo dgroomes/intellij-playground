@@ -3,4 +3,4 @@
 schema:
   - https://api.github.com/graphql:
       headers:
-        Authorization: Bearer ${env:GITHUB-ACCESS-TOKEN}
+        Authorization: Bearer ${GITHUB-ACCESS-TOKEN}

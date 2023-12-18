@@ -151,7 +151,6 @@ The *Client-to-server* workflow is a little easier to follow and [those instruct
 
     <img alt="intellij-remote-development-thin-client-screenshot.png" src="intellij-remote-development-thin-client-screenshot.png" width="800"/>
 
-
 12. When you're done, stop the container
     * ```shell
       docker stop intellij-playground-devcontainer
@@ -163,15 +162,21 @@ The *Client-to-server* workflow is a little easier to follow and [those instruct
 
 General clean-ups, changes and things I wish to implement for this project:
 
+* [ ] BLOCKED (The Dev Container CLI has not yet implemented the `forwardPorts` part of the spec. See [GitHub issue #186](https://github.com/devcontainers/cli/issues/186))
+  Consider using the Dev Container CLI to run the container. This is convenient because it should do the bind
+  mounting and the port forwarding (you still have to configure the ports manually in `.devcontainer/devcontainer.json`).
+* [ ] How does the GraphQL Intellij plugin implement "environment variables"? Is this using a blessed Intellij API or
+  was it a custom implementation? I'm curious because I want a similar feature for a plugin I'm working on.
+
+
+## Finished Wish List Items
+
 * [x] ABANDONED (I don't think this will work on macOS but I tried) Run Projector without Docker. Maybe this will avoid the JVM crash.
 * [x] SKIP (no i actually want to take all my subprojects and promote them to their own top-level repos, but i need more tooling to make that happen) Merge my project <https://github.com/dgroomes/intellij-plugin-playground> as a sub-project to this Git repo.
 * [x] DONE Remove Projector stuff. That project was discontinued and is now part of the closed-source product Gateway (which is
   totally fine; JetBrains can do what they need to do to stay competitive) 
 * [x] DONE Create a container-based development environment. Use JetBrains Gateway. Use Dev Containers. Describe
   all instructions.
-* [ ] BLOCKED (The Dev Container CLI has not yet implemented the `forwardPorts` part of the spec. See [GitHub issue #186](https://github.com/devcontainers/cli/issues/186))
-  Consider using the Dev Container CLI to run the container. This is convenient because it should do the bind
-  mounting and the port forwarding (you still have to configure the ports manually in `.devcontainer/devcontainer.json`).
 * [x] DONE Mount the project directory file system into the container. This is what VS Code does for its Dev Containers
   experience. I'm afraid about how slow this will make the dev experience because the Docker on macOS file system sharing
   is notoriously slow, and Intellij does heavy IO because of its advanced indexing.
@@ -179,8 +184,6 @@ General clean-ups, changes and things I wish to implement for this project:
   I have many projects. I don't want to continually download Intellij (it's 1+ GB). I think I need to use the "JetBrains Client Downloader" (?)
   mentioned on the [*Fully offline mode* page](https://www.jetbrains.com/help/idea/fully-offline-mode.html)
 * [x] DONE Explore GraphQL support and make some requests to the GitHub GraphQL API.
-* [ ] How does the GraphQL Intellij plugin implement "environment variables"? Is this using a blessed Intellij API or
-  was it a custom implementation? I'm curious because I want a similar feature for a plugin I'm working on.
 
 
 ## Reference

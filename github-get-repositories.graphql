@@ -2,7 +2,7 @@
 #
 # Thanks to the GraphQL Intellij Plugin and the `graphql.config.yml` file, we get auto-completion and syntax
 # highlighting for this query. It's a great way to explore a GraphQL API.
-{
+query GetSampleOfRepositories {
     viewer {
         name
         repositories(first: 10) {
